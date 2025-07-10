@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopian Registration Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --eth-green: #078930;
+            --eth-yellow: #f9dc5c;
+            --eth-red: #e02401;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', 'Noto Sans Ethiopic', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .form-header {
+            background: linear-gradient(to right, var(--eth-green), var(--eth-yellow), var(--eth-red));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .form-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            font-size: 1rem;
+        }
+
+        .form-header::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10L60 40H90L65 60L75 90L50 70L25 90L35 60L10 40H40Z" fill="white"/></svg>');
+            background-size: contain;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            opacity: 0.3;
+        }
+
+        .form-body {
+            padding: 30px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px 20px;
+        }
+
+        .form-group {
+            flex: 1 0 100%;
+            padding: 0 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .form-group {
+                flex: 1 0 calc(50% - 30px);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--eth-green);
+        }
+
+        .dual-label {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .amharic {
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+            direction: rtl;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--eth-yellow);
+            box-shadow: 0 0 0 3px rgba(249, 220, 92, 0.3);
+        }
+
+        input.error {
+            border-color: var(--eth-red);
+        }
+
+        input.success {
+            border-color: var(--eth-green);
+        }
+
+        .error-message {
+            color: var(--eth-red);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--eth-green);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .password-strength {
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .tooltip {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: help;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark-gray);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: 10px;
+            z-index: 10;
+        }
+
+        .submit-btn {
+            background: var(--eth-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 30px auto 0;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            background: #056b24;
+        }
+
+        .form-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .success-container {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+
+        .success-container i {
+            font-size: 60px;
+            color: var(--eth-green);
+            margin-bottom: 20px;
+        }
+
+        .success-container h2 {
+            color: var(--eth-green);
+            margin-bottom: 15px;
+        }
+
+        .ethiopian-cross {
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <div class="form-header">
+                <h1>የተጠቃሚ ምዝገባ ፎርም</h1>
+                <p>User Registration Form</p>
+            </div>
+
+            <div class="form-body" id="registrationForm">
+                <form id="mainForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="dual-label">
+                                <span class="amharic">ስም</span>
+                                <span>Name</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" id="name" name="name" placeholder="ስምዎን ያስገቡ / Enter your name" required>
+                                <span class="tooltip" data-tooltip="Your full name"></span>
+                            </div>
+                            <div class="error-message" id="name-error">Please enter your name</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="dual-label">
+                                <span class="amharic">ኢሜይል</span>
+                                <span>Email</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="email" id="email" name="email" placeholder="ኢሜይል ያስገቡ / Enter your email" required>
+                                <span class="tooltip" data-tooltip="example@domain.com"></span>
+                            </div>
+                            <div class="error-message" id="email-error">Please enter a valid email address</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="dual-label">
+                                <span class="amharic">ስልክ ቁጥር</span>
+                                <span>Phone Number</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="tel" id="phone" name="phone" placeholder="0912345678 / Enter your phone" required>
+                                <span class="tooltip" data-tooltip="09XXXXXXXX"></span>
+                            </div>
+                            <div class="error-message" id="phone-error">Please enter a valid Ethiopian phone number (09XXXXXXXX)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="dual-label">
+                                <span class="amharic">የይለፍ ቃል</span>
+                                <span>Password</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="password" id="password" name="password" placeholder="የይለፍ ቃል ያስገቡ / Enter password" required>
+                                <span class="tooltip" data-tooltip="At least 8 characters"></span>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-meter" id="strengthMeter"></div>
+                            </div>
+                            <div class="error-message" id="password-error">Password must be at least 8 characters with numbers and special characters</div>
+                            <div class="success-message" id="password-success">Strong password</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span class="amharic">ይመዝገቡ</span> / Register
+                    </button>
+                </form>
+            </div>
+
+            <div class="success-container" id="successContainer">
+                <i class="fas fa-check-circle"></i>
+                <div class="ethiopian-cross">መስቀል</div>
+                <h2>በትክክል �መዘግበዋል!</h2>
+                <h2>Registration Successful!</h2>
+                <p>Thank you for registering. We'll contact you soon.</p>
+            </div>
+
+            <div class="form-footer">
+                <p>© 2025 Ethiopian Digital Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('mainForm');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const passwordInput = document.getElementById('password');
+            const strengthMeter = document.getElementById('strengthMeter');
+            const registrationForm = document.getElementById('registrationForm');
+            const successContainer = document.getElementById('successContainer');
+
+            // Ethiopian phone number regex (09XXXXXXXX)
+            const phoneRegex = /^09\d{8}$/;
+            
+            // Email regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Password strength check
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[a-z]/)) strength += 1;
+                if (password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/[0-9]/)) strength += 1;
+                if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+                
+                return strength;
+            }
+
+            // Update password strength meter
+            passwordInput.addEventListener('input', function() {
+                const strength = checkPasswordStrength(this.value);
+                const strengthPercentage = (strength / 5) * 100;
+                
+                strengthMeter.style.width = strengthPercentage + '%';
+                
+                if (strength <= 2) {
+                    strengthMeter.style.backgroundColor = 'var(--eth-red)';
+                } else if (strength <= 4) {
+                    strengthMeter.style.backgroundColor = 'var(--eth-yellow)';
+                } else {
+                    strengthMeter.style.backgroundColor = 'var(--eth-green)';
+                }
+            });
+
+            // Real-time validation
+            function validateField(input, regex = null, minLength = 1) {
+                const errorElement = document.getElementById(input.id + '-error');
+                const value = input.value.trim();
+                let isValid = false;
+                
+                if (input.required && value.length < minLength) {
+                    errorElement.textContent = input === nameInput ? 'Please enter your name' : 'This field is required';
+                    isValid = false;
+                } else if (regex && !regex.test(value)) {
+                    isValid = false;
+                } else {
+                    isValid = true;
+                }
+                
+                if (input === passwordInput) {
+                    const strength = checkPasswordStrength(value);
+                    const passwordSuccess = document.getElementById('password-success');
+                    
+                    if (value.length >= 8 && strength >= 3) {
+                        passwordSuccess.style.display = 'block';
+                        errorElement.style.display = 'none';
+                        input.classList.remove('error');
+                        input.classList.add('success');
+                        isValid = true;
+                    } else {
+                        passwordSuccess.style.display = 'none';
+                        errorElement.style.display = 'block';
+                        input.classList.add('error');
+                        input.classList.remove('success');
+                        isValid = false;
+                    }
+                    return isValid;
+                }
+                
+                if (isValid) {
+                    errorElement.style.display = 'none';
+                    input.classList.remove('error');
+                    input.classList.add('success');
+                } else {
+                    errorElement.style.display = 'block';
+                    input.classList.add('error');
+                    input.classList.remove('success');
+                }
+                
+                return isValid;
+            }
+
+            // Field validation on blur
+            [nameInput, emailInput, phoneInput, passwordInput].forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this === phoneInput) {
+                        validateField(this, phoneRegex);
+                    } else if (this === emailInput) {
+                        validateField(this, emailRegex);
+                    } else if (this === passwordInput) {
+                        validateField(this);
+                    } else {
+                        validateField(this);
+                    }
+                });
+            });
+
+            // Field validation on input (real-time)
+            [nameInput, emailInput, phoneInput, passwordInput].forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this === phoneInput) {
+                        validateField(this, phoneRegex);
+                    } else if (this === emailInput) {
+                        validateField(this, emailRegex);
+                    } else if (this === passwordInput) {
+                        validateField(this);
+                    }
+                });
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate all fields
+                const isNameValid = validateField(nameInput);
+                const isEmailValid = validateField(emailInput, emailRegex);
+                const isPhoneValid = validateField(phoneInput, phoneRegex);
+                const isPasswordValid = validateField(passwordInput);
+                
+                if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
+                    // Form is valid, show success message
+                    registrationForm.style.display = 'none';
+                    successContainer.style.display = 'block';
+                    
+                    // Here you would typically send the data to a server
+                    // For demo purposes, we'll just log it
+                    const formData = {
+                        name: nameInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        phone: phoneInput.value.trim(),
+                        password: passwordInput.value
+                    };
+                    console.log('Form submitted:', formData);
+                } else {
+                    // Scroll to the first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+
+            // Enhance UX with focus effects
+            [nameInput, emailInput, phoneInput, passwordInput].forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.boxShadow = '0 0 0 3px rgba(249, 220, 92, 0.3)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
